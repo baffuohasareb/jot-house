@@ -33,7 +33,7 @@ Below are the intended features of the app.
 - Light and dark mode support.
 - An app widget on phone desktop.
 
-
+</br></br>
 I am more than excited to work on this project, learning, overcoming challenges, and enjoying the experience.🚀💫
 
 _"JotHouse; Your ideas don't leave here."_
