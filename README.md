@@ -1,6 +1,6 @@
 # Welcome to JotHouse 📝✍️
 
-This is a note-taking mobile application built with React Native to provide a seamless note-taking experience.
+This is a React Native mobile application that provides a seamless note-taking experience.
 Below are the intended features of the app.
 
 
