@@ -1,50 +1,39 @@
-# Welcome to your Expo app 👋
+# Welcome to JotHouse 📝✍️
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native mobile application that provides a seamless note-taking experience.
+Below are the intended features of the app.
 
-## Get started
 
-1. Install dependencies
+## Features
 
-   ```bash
-   npm install
-   ```
+###  Core Features
+- Create, edit, and delete notes.
+- Rich text formatting.
+- Categorise and tag notes.
+- Share notes with others.
 
-2. Start the app
+###  Advanced Features
+- Attach images, PDFs, voice notes, and audio files to notes.
+- Add drawings to notes.
+- Add checklists to notes.
+- Speech-to-text feature for note-taking.
 
-   ```bash
-    npx expo start
-   ```
+###  Organizational Features
+- Organise notes into folders and subfolders.
+- Pin notes.
+- Add notes to favorites.
+- Color coding for notes.
+- Sort and filter notes and folders.
 
-In the output, you'll find options to open the app in a
+###  Privacy and Security Features
+- Lock notes with password and/or biometrics.
+- Keep notes in a secure folder.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+###  UX Features
+- Light and dark mode support.
+- An app widget on phone desktop.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+</br></br>
+I am more than excited to work on this project, learning, overcoming challenges, and enjoying the experience.🚀💫
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+_"JotHouse; Your ideas don't leave here."_
