@@ -1,31 +1,39 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { PropsWithChildren, useState } from 'react';
-import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
+import { PropsWithChildren } from 'react';
+import { Pressable, StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
 
-export function Collapsible({ children, title }: PropsWithChildren & { title: string }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const theme = useColorScheme() ?? 'light';
+export function Collapsible({ 
+  children, 
+  title, 
+  isOpen, 
+  setIsOpen 
+}: PropsWithChildren & { title: string, isOpen: boolean, setIsOpen: (value: boolean) => void }) {
 
-  return (
-    <ThemedView>
-      <TouchableOpacity
-        style={styles.heading}
-        onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}>
-        <Ionicons
-          name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
-          size={18}
-          color={theme === 'light' ? Colors.light.icon : Colors.dark.icon}
-        />
-        <ThemedText type="defaultSemiBold">{title}</ThemedText>
-      </TouchableOpacity>
-      {isOpen && <ThemedView style={styles.content}>{children}</ThemedView>}
-    </ThemedView>
-  );
+	const background = useThemeColor({}, "card");
+	const theme = useColorScheme() ?? 'light';
+
+	return (
+		<ThemedView>
+			<Pressable
+				style={styles.heading}
+				onPress={() => setIsOpen(!isOpen)}
+			>
+				<Ionicons
+					name={isOpen ? 'chevron-down' : 'chevron-forward-outline'}
+					size={18}
+					color={theme === 'light' ? Colors.light.text : Colors.dark.text}
+				/>
+				<ThemedText type="heading">{title}</ThemedText>
+			</Pressable>
+
+			{isOpen && <View style={[styles.content, { backgroundColor: background}]}>{children}</View>}
+		</ThemedView>
+	);
 }
 
 const styles = StyleSheet.create({
@@ -37,5 +45,15 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 6,
     marginLeft: 24,
+	borderRadius: 20,
+	shadowColor: "#000",
+	shadowOffset: {
+		width: -2,
+		height: 4
+	},
+	shadowOpacity: 0.25,
+	elevation: 5,
+	paddingVertical: 10,
+	paddingHorizontal: 12
   },
 });
