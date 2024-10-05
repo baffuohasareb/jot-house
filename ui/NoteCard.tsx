@@ -2,19 +2,10 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import React, { FC } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import NoteType from "@/types/noteType";
 
-type NoteCardProps = {
-    title: string;
-    body: string;
-    pinned: boolean;
-    favorite: boolean;
-    color?: string;
-    locked: boolean;
-    lastUpdated: string;
-    onPress: () => void;
-}
 
-const NoteCard: FC<NoteCardProps> = ({
+const NoteCard: FC<NoteType> = ({
     title,
     body,
     pinned,
