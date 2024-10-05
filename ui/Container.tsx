@@ -18,8 +18,8 @@ type Props = {
 
 const Container: FC<Props> = ({
     headerShown=false,
-    paddingHorizontal=10,
-    paddingVertical=10,
+    paddingHorizontal,
+    paddingVertical,
     contentContainerStyle={},
     showsVerticalScrollIndicator=false,
     showsHorizontalScrollIndicator=false,
@@ -29,7 +29,7 @@ const Container: FC<Props> = ({
     children
 }) => {
     
-    const { top, bottom } = useSafeAreaInsets();
+    const { bottom } = useSafeAreaInsets();
     const backgroundColor = useThemeColor({}, "background");
 
     const Wrapper = scrollable ? ScrollView : View;
@@ -50,7 +50,7 @@ const Container: FC<Props> = ({
 
     return(
 
-        <SafeAreaProvider style={{paddingTop: top, paddingBottom: bottom, backgroundColor}}>
+        <SafeAreaProvider style={{paddingTop: paddingVertical, paddingBottom: bottom, backgroundColor}}>
             {contentRender}
         </SafeAreaProvider>
     )
