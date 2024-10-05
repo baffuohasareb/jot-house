@@ -31,7 +31,7 @@ export function Collapsible({
 				<ThemedText type="heading">{title}</ThemedText>
 			</Pressable>
 
-			{isOpen && <View style={[styles.content, { backgroundColor: background}]}>{children}</View>}
+			{isOpen && children && <View style={[styles.content, { backgroundColor: background}]}>{children}</View>}
 		</ThemedView>
 	);
 }

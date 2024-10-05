@@ -21,24 +21,26 @@ const TagsHeader: FC<TagsHeaderProps> = ({
     const Separator = () => <View style={styles.separator}/>
 
     return (
-        <Collapsible title={"#" + heading} isOpen={isOpen} setIsOpen={setIsOpen}>
-            <FlatList
-                data={tags}
-                renderItem={({ item }) => (
-                    <Pressable 
-                        style={({ pressed }) => [
-                            styles.tag,
-                            pressed && { opacity: 0.5 }
-                        ]}
-                        onPress={() => handleTagPress(item)}
-                    >
-                        <ThemedText>#{item}</ThemedText>
-                    </Pressable>
-                )}
-                keyExtractor={(item) => item.toString()}
-                style={styles.tagList}
-                ItemSeparatorComponent={Separator}
-            />
+        <Collapsible title={heading ? ("#" + heading) : "No tags"} isOpen={isOpen} setIsOpen={setIsOpen}>
+            {tags.length > 0 && (
+                <FlatList
+                    data={tags}
+                    renderItem={({ item }) => (
+                        <Pressable 
+                            style={({ pressed }) => [
+                                styles.tag,
+                                pressed && { opacity: 0.5 }
+                            ]}
+                            onPress={() => handleTagPress(item)}
+                        >
+                            <ThemedText>#{item}</ThemedText>
+                        </Pressable>
+                    )}
+                    keyExtractor={(item) => item.toString()}
+                    style={styles.tagList}
+                    ItemSeparatorComponent={Separator}
+                />
+            )}
         </Collapsible>
     )
 }
