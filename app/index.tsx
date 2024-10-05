@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import SearchBar from "@/ui/SearchBar";
 import Container from "@/ui/Container";
@@ -7,45 +7,57 @@ import NoteCard from "@/ui/NoteCard";
 import FolderCard from "@/ui/FolderCard";
 import { Collapsible } from "@/components/Collapsible";
 import TagsHeader from "@/ui/TagsHeader";
+import Sidebar from "@/ui/Sidebar";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import Icon from "react-native-vector-icons/Feather";
 
 const index = () => {
+	const tint = useThemeColor({}, "tint");
+	const background = useThemeColor({}, "background");
+
+	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const [content, setContent] = useState<"All notes" | "Favorites" | "Locked" | "Tags" | "Pinned" | "Folders">("Tags");
+
 	return (
-		<Container style={{ flexDirection: "row", flexWrap: "wrap", gap: 4}}>
-			<NoteCard
-				title="My first day at Opoku Ware"
-				body="lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj"
-				pinned={true}
-				favorite={true}
-				locked={false}
-				color="#fec120"
-				lastUpdated="01/05/2024"
-				onPress={() => {}}
-			/>
-			
-			<NoteCard
-				title="My first day at Opoku Ware School"
-				body="lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj lorerm ipsum dolor sit amet, consectutur aadipiscing elit, sed do eusmod tempor incididunt ut labareoklj"
-				pinned={true}
-				favorite={true}
-				locked={true}
-				color="#cc0000"
-				lastUpdated="01/05/2024"
-				onPress={() => {}}
+		<Container>
+			<Sidebar 
+				visible={showMenu}
+				onClose={() => setShowMenu(false)}
 			/>
 
-			<FolderCard 
-				name="CCI Sunday Service"
-				noteCount={12}
-				onPress={() => {}}
-			/>
-			
-			<FolderCard 
-				name="CCI Sunday Service"
-				noteCount={12}
-				onPress={() => {}}
-			/>
+			<View style={[{backgroundColor: tint, paddingTop: 30, paddingHorizontal: 10}]}>
+				<Pressable 
+					onPress={() => setShowMenu(true)}
+				>
+					<Icon name="menu" size={20} color={"#d9d9d9"} />
+				</Pressable>
 
-			<TagsHeader tags={["chillings", "electronics", "religion", "sports", "seminars"]} />
+				<View>
+					<ThemedText>
+						JotHouse
+					</ThemedText>
+				</View>
+			</View>
+
+			<View style={[{paddingHorizontal: 10}]}>
+				<SearchBar placeholder="search notes, folders, and tags" />
+
+				<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+					<View>
+						{content === "Tags" ? (
+							<TagsHeader tags={[]} />
+						) : (
+							<ThemedText type="heading">
+								{content}
+							</ThemedText>
+						)}
+					</View>
+
+					<View>
+						<ThemedText>Title</ThemedText>
+					</View>
+				</View>
+			</View>
 		</Container>
 	)
 }
