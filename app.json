@@ -17,14 +17,15 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.baffuohasareb.JotHouse"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/icon.png"
     },
     "plugins": [
       "expo-router"
@@ -34,7 +35,18 @@
     },
     "packagerOpts": {
       "config": "metro.config.js",
-      "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+      "sourceExts": [
+        "js",
+        "jsx",
+        "ts",
+        "tsx",
+        "svg"
+      ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "887a1378-9d5a-4af2-a7fe-0b8eb366bf4a"
+      }
     }
   }
 }
