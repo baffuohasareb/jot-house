@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import SearchBar from "@/ui/SearchBar";
@@ -10,16 +10,47 @@ import TagsHeader from "@/ui/TagsHeader";
 import Sidebar from "@/ui/Sidebar";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Icon from "react-native-vector-icons/Feather";
+import useHomeScreenContentStore from "@/stores/homeScreenContentStore";
+import useNotesStore from "@/stores/noteStore";
+import NoteType from "@/types/noteType";
+import { useRouter } from "expo-router";
 
 const index = () => {
+	const { active, setActive } = useHomeScreenContentStore();
+	const { selectedNote, setSelectedNote } = useNotesStore();
+	const router = useRouter();
 	const tint = useThemeColor({}, "tint");
+	const icon = useThemeColor({}, "icon");
 	const background = useThemeColor({}, "background");
 
 	const [showMenu, setShowMenu] = useState<boolean>(false);
-	const [content, setContent] = useState<"All notes" | "Favorites" | "Locked" | "Tags" | "Pinned" | "Folders">("Tags");
+
+
+
+	const note: NoteType = {
+		id: 1,
+		title: "Test",
+		body: "This is just for testing purpose",
+		pinned: true,
+		favorite: true,
+		locked: false,
+		lastUpdated: "00000000",
+		onPress() {
+			setSelectedNote(this);
+			router.push("/notePreview")
+		},
+	}
 
 	return (
 		<Container>
+			<StatusBar
+				barStyle="light-content"
+				backgroundColor={tint}
+				hidden={false}
+				animated={true}
+				translucent={true}
+			/>
+
 			<Sidebar 
 				visible={showMenu}
 				onClose={() => setShowMenu(false)}
@@ -29,7 +60,7 @@ const index = () => {
 				<Pressable 
 					onPress={() => setShowMenu(true)}
 				>
-					<Icon name="menu" size={20} color={"#d9d9d9"} />
+					<Icon name="menu" size={20} color={icon} />
 				</Pressable>
 
 				<View>
@@ -44,11 +75,11 @@ const index = () => {
 
 				<View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
 					<View>
-						{content === "Tags" ? (
+						{active === "Tags" ? (
 							<TagsHeader tags={[]} />
 						) : (
 							<ThemedText type="heading">
-								{content}
+								{active}
 							</ThemedText>
 						)}
 					</View>
@@ -57,6 +88,19 @@ const index = () => {
 						<ThemedText>Title</ThemedText>
 					</View>
 				</View>
+			</View>
+
+			<View>
+				<NoteCard
+					id={note.id}
+					title={note.title}
+					body={note.body}
+					favorite={note.favorite}
+					pinned={note.pinned}
+					locked={note.locked}
+					lastUpdated={note.lastUpdated}
+					onPress={note.onPress}
+				/>
 			</View>
 		</Container>
 	)

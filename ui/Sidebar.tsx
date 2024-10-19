@@ -10,6 +10,7 @@ import Folder from "../components/icons/Folder";
 import { ThemedText } from "@/components/ThemedText";
 import Icon from "react-native-vector-icons/Feather";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import useHomeScreenContentStore from "@/stores/homeScreenContentStore";
 
 type SidebarProps = {
     visible: boolean;
@@ -17,10 +18,15 @@ type SidebarProps = {
 }
 
 const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
+    const { setActive } = useHomeScreenContentStore();
+
     const tint  = useThemeColor({}, "tint");
     const text  = useThemeColor({}, "text");
 
-    const handleItemPress = () => {
+    const handleItemPress = (
+        item: "All notes" | "Favorites" | "Locked" | "Tags" | "Pinned" | "Folders"
+    ) => {
+        setActive(item);
         onClose();
     }
     return (
@@ -45,7 +51,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("All notes")}
                 >
                     <Note size={20} color={text} />
                     <ThemedText type="cardTitle" style={{ fontSize: 16 }}>All notes</ThemedText>
@@ -56,7 +62,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("Favorites")}
                 >
                     <Star size={20} color={text}/>
                     <ThemedText type="cardTitle">Favorites</ThemedText>
@@ -67,7 +73,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("Locked")}
                 >
                     <Locked size={20} color={text}/>
                     <ThemedText type="cardTitle">Locked</ThemedText>
@@ -78,7 +84,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("Tags")}
                 >
                     <Tag size={20} color={text}/>
                     <ThemedText type="cardTitle">Tags</ThemedText>
@@ -89,7 +95,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("Pinned")}
                 >
                     <Pin size={20} color={text}/>
                     <ThemedText type="cardTitle">Pinned</ThemedText>
@@ -100,7 +106,7 @@ const Sidebar: FC<SidebarProps> = ({ visible, onClose}) => {
                         styles.menuItem,
                         pressed && { opacity: 0.5 }
                     ]}
-                    onPress={handleItemPress}
+                    onPress={() => handleItemPress("Folders")}
                 >
                     <Folder size={20} color={text} />
                     <ThemedText type="cardTitle">Folders</ThemedText>
