@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 3,
         borderBottomWidth: 3,
         flexDirection: "row",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
         paddingVertical: 10
     }
