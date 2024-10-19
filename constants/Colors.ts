@@ -12,11 +12,13 @@ export const Colors = {
     background: '#f5f5f5',
     card: '#fff',
     tint: tintColorLight,
+    icon: "#fff"
   },
   dark: {
     text: '#d9d9d9',
     background: '#090909',
     card: '#2e2e2e',
     tint: tintColorDark,
+    icon: "#d9d9d9"
   },
 };
