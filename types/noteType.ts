@@ -1,4 +1,5 @@
 type NoteType = {
+    id: number;
     title: string;
     body: string;
     pinned: boolean;
