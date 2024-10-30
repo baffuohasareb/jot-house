@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import Container from "@/ui/Container";
 import useNotesStore from "@/stores/noteStore";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import FormattingToolbar from "@/components/FormattingToolbar";
+import FormattingToolbar from "@/ui/FormattingToolbar";
 import Icon from "react-native-vector-icons/Feather";
 
 const editNote = () => {
     const { selectedNote } = useNotesStore();
+    const textColor = useThemeColor({light: "#000", dark: "#fff"}, "text")
 
     const card = useThemeColor({}, "card");
     const icon = useThemeColor({}, "icon");
@@ -19,12 +20,12 @@ const editNote = () => {
         <Container paddingVertical={20}>
             <TextInput
                 value={selectedNote?.title || "Note title"}
-                style={[styles.title, { backgroundColor: card, fontWeight: "600" }]}
+                style={[styles.title, { backgroundColor: card, fontWeight: "600", color: textColor }]}
             />
 
             <TextInput
                 value={selectedNote?.title || "Note body"}
-                style={[styles.body, { backgroundColor: card }]}
+                style={[styles.body, { backgroundColor: card, color: textColor }]}
                 onFocus={() => setToolbarVisible(true)}
                 onBlur={() => setToolbarVisible(false)}
             />

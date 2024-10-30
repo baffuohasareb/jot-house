@@ -14,17 +14,28 @@ import useHomeScreenContentStore from "@/stores/homeScreenContentStore";
 import useNotesStore from "@/stores/noteStore";
 import NoteType from "@/types/noteType";
 import { useRouter } from "expo-router";
+import Ascending from "@/components/icons/Ascending";
+import Descending from "@/components/icons/Descending";
 
 const index = () => {
 	const { active, setActive } = useHomeScreenContentStore();
 	const { selectedNote, setSelectedNote } = useNotesStore();
 	const router = useRouter();
 	const tint = useThemeColor({}, "tint");
+	const text = useThemeColor({}, "text");
 	const icon = useThemeColor({}, "icon");
-	const background = useThemeColor({}, "background");
 
 	const [showMenu, setShowMenu] = useState<boolean>(false);
+	const [ascending, setAscending] = useState<boolean>(true);
+	const [title, setTitle] = useState<boolean>(true);
 
+	const toggleOrder = () => {
+		ascending === true ? setAscending(false) : setAscending(true);
+	}
+
+	const toggleFilter = () => {
+		title === true ? setTitle(false) : setTitle(true);
+	}
 
 
 	const note: NoteType = {
@@ -56,15 +67,15 @@ const index = () => {
 				onClose={() => setShowMenu(false)}
 			/>
 
-			<View style={[{backgroundColor: tint, paddingTop: 30, paddingHorizontal: 10}]}>
+			<View style={[styles.header, {backgroundColor: tint}]}>
 				<Pressable 
 					onPress={() => setShowMenu(true)}
 				>
 					<Icon name="menu" size={20} color={icon} />
 				</Pressable>
 
-				<View>
-					<ThemedText>
+				<View style={styles.logo}>
+					<ThemedText type="heading">
 						JotHouse
 					</ThemedText>
 				</View>
@@ -84,28 +95,80 @@ const index = () => {
 						)}
 					</View>
 
-					<View>
-						<ThemedText>Title</ThemedText>
+					<View style={styles.header}>
+						<Pressable 
+							onPress={toggleFilter}
+							style={({ pressed }) => [
+								styles.filter, 
+								{ borderRightColor: text},
+								pressed && { opacity: 0.6 }
+							]}
+						>	
+							<ThemedText>
+								{title ? "Title" : "Date"}
+							</ThemedText>
+						</Pressable>
+						<Pressable 
+							onPress={toggleOrder}
+							style={({ pressed }) => pressed && { opacity: 0.6 }}
+						>	
+							{ascending ? (
+								<Ascending color={text} size={20}/>
+							) : (
+								<Descending color={text} size={20}/>
+							)}
+						</Pressable>
 					</View>
 				</View>
 			</View>
 
-			<View>
-				<NoteCard
-					id={note.id}
-					title={note.title}
-					body={note.body}
-					favorite={note.favorite}
-					pinned={note.pinned}
-					locked={note.locked}
-					lastUpdated={note.lastUpdated}
-					onPress={note.onPress}
-				/>
-			</View>
+			{active === "All notes" && (
+				<View>
+					<NoteCard
+						id={note.id}
+						title={note.title}
+						body={note.body}
+						favorite={note.favorite}
+						pinned={note.pinned}
+						locked={note.locked}
+						lastUpdated={note.lastUpdated}
+						onPress={note.onPress}
+					/>
+				</View>
+			)}
+			
+			{active === "Folders" && (
+				<View>
+					<FolderCard 
+						name="Folder name"
+						noteCount={12}
+						onPress={() => {}}
+					/>
+				</View>
+			)}
 		</Container>
 	)
 }
 
 export default index
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+	header: {
+		paddingTop: 40, 
+		paddingBottom: 20,
+		paddingHorizontal: 10,
+		flexDirection: "row",
+		justifyContent: 'space-between',
+		alignItems: "center"
+	},
+	logo: {
+		flex: 1,
+		alignItems: "center",
+		marginRight: 30
+	},
+	filter: {
+		paddingRight: 5,
+		marginRight: 5,
+		borderRightWidth: 1,
+	}
+})

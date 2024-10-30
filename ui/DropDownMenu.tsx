@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View, ViewStyle } from "react-native";
 import React, { FC } from "react";
 import DropdownMenuButtonType from "@/types/dropdownMenuButtonType";
 import { useThemeColor } from "@/hooks/useThemeColor";
@@ -14,10 +14,11 @@ type DropDownMenuType = {
         right?: number,
         bottom?: number,
         left?: number,
-    }
+    },
+    style?: ViewStyle;
 }
 
-const DropDownMenu: FC<DropDownMenuType> = ({ heading, buttons, visible, position }) => {
+const DropDownMenu: FC<DropDownMenuType> = ({ heading, buttons, visible, position, style }) => {
     const text = useThemeColor({}, "text");
     const card = useThemeColor({}, "card");
 
@@ -33,7 +34,8 @@ const DropDownMenu: FC<DropDownMenuType> = ({ heading, buttons, visible, positio
                         right: position?.right,
                         bottom: position?.bottom,
                         left: position?.left
-                     }
+                    },
+                    {...style}
                 ]}
             >
                 {heading && (
@@ -78,6 +80,5 @@ const styles = StyleSheet.create({
         padding: 10,
         gap: 20,
         zIndex: 1,
-        
     }
 })
