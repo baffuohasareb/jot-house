@@ -1,28 +1,42 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import React, { FC } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import NoteType from "@/types/noteType";
+import StarFilled from "@/components/icons/StarFilled";
+import PinFilled from "@/components/icons/PinFilled";
+import { useRouter } from "expo-router";
+import useNotesStore from "@/stores/noteStore";
 
 
 const NoteCard: FC<NoteType> = ({
+    id,
     title,
     body,
     pinned,
     favorite,
     color,
+    tags,
     locked,
     lastUpdated,
-    onPress
 }) => {
+    const router = useRouter();
+
+    const { setSelectedNote } = useNotesStore();
+
     const cardBackground = useThemeColor({}, "card");
     const tint = useThemeColor({}, "tint");
 
-    const cardText = locked ? "Note body hidden for privacy reasons" : body
+    const cardText = locked ? "Note body hidden for privacy reasons" : body;
+
+    const handleNotePress = () => {
+        setSelectedNote({id, title, body, pinned, favorite, color, tags, locked,  lastUpdated})
+        router.push("/notePreview");
+    }
 
     return (
         <Pressable 
-            onPress={onPress} 
+            onPress={handleNotePress} 
             style={({ pressed }) => [
                 styles.container, 
                 { backgroundColor: cardBackground},
@@ -30,16 +44,14 @@ const NoteCard: FC<NoteType> = ({
             ]}
         >
             <View style={styles.header}>
-                <View style={{ flex: 1}}>
+                <View style={[{ flex: 1, flexDirection: "row", alignItems: "center", gap: 7}]}>
                     <ThemedText type="cardTitle" numberOfLines={1} ellipsizeMode="tail">
                         {title}
                     </ThemedText>
+                    {pinned && <PinFilled size={20} color={tint} />}
                 </View>
-
-                <View style={styles.iconsContainer}>
-                    {pinned && <ThemedText type="small" style={{ color: tint}}>P</ThemedText>}
-                    {favorite && <ThemedText type="small" style={{ color: tint, marginLeft: 5}}>S</ThemedText>}
-                </View>
+                    
+                {favorite && <StarFilled size={15} color={tint} />}
             </View>
 
             <View>
@@ -74,7 +86,6 @@ const styles = StyleSheet.create({
     header: {
         width: "100%",
         flexDirection: "row",
-        justifyContent: "space-between",
         alignItems: "center",
     },
     iconsContainer: {
