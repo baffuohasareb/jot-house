@@ -8,7 +8,6 @@ type NoteType = {
     tags?: string[];
     locked: boolean;
     lastUpdated: string;
-    onPress: () => void;
 }
 
 export default NoteType
