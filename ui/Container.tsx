@@ -7,7 +7,6 @@ type Props = {
     headerShown?: boolean
     paddingHorizontal?: number
     paddingVertical?: number
-    scrollable?: boolean
     contentContainerStyle?: ViewStyle
     showsVerticalScrollIndicator?: boolean
     showsHorizontalScrollIndicator?: boolean
@@ -17,45 +16,38 @@ type Props = {
 }
 
 const Container: FC<Props> = ({
-    headerShown=false,
+    headerShown = false,
     paddingHorizontal,
     paddingVertical,
-    contentContainerStyle={},
-    showsVerticalScrollIndicator=false,
-    showsHorizontalScrollIndicator=false,
-    justifyContent="flex-start",
-    scrollable,
+    contentContainerStyle = {},
+    showsVerticalScrollIndicator = false,
+    showsHorizontalScrollIndicator = false,
+    justifyContent = "flex-start",
     style,
     children
 }) => {
-    
+
     const { bottom } = useSafeAreaInsets();
     const backgroundColor = useThemeColor({}, "background");
 
-    const Wrapper = scrollable ? ScrollView : View;
-
-    const props = scrollable ? {
-        showsVerticalScrollIndicator,
-        showsHorizontalScrollIndicator,
-        contentContainerStyle
-    } : {};
 
     const ContentRender = () => (
-        <Wrapper {...props} style={[styles.container, { backgroundColor, paddingHorizontal, paddingVertical, justifyContent }, style]}>
+        <View style={[styles.container, { backgroundColor, paddingHorizontal, paddingVertical, justifyContent }, style]}>
             {children}
-        </Wrapper>
+        </View>
     );
 
     if (headerShown) return <ContentRender />;
 
-    return(
-
-        <SafeAreaProvider style={{paddingTop: paddingVertical, paddingBottom: bottom, backgroundColor}}>
+    return (
+        <SafeAreaProvider style={[styles.container, { paddingTop: paddingVertical, paddingBottom: bottom, backgroundColor }]}>
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-                <FlatList
-                    data={[1]}
-                    renderItem={() => <ContentRender />}
-                />
+                <View style={styles.container}>
+                    <FlatList
+                        data={[1]}
+                        renderItem={() => <ContentRender />}
+                    />
+                </View>
             </TouchableWithoutFeedback>
         </SafeAreaProvider>
     )
@@ -63,7 +55,7 @@ const Container: FC<Props> = ({
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1, // Ensures full height
     }
 });
 

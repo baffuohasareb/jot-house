@@ -16,10 +16,11 @@ import NoteType from "@/types/noteType";
 import { useRouter } from "expo-router";
 import Ascending from "@/components/icons/Ascending";
 import Descending from "@/components/icons/Descending";
+import AllNotes from "@/ui/AllNotes";
 
 const index = () => {
 	const { active, setActive } = useHomeScreenContentStore();
-	const { selectedNote, setSelectedNote } = useNotesStore();
+	const { notes } = useNotesStore();
 	const router = useRouter();
 	const tint = useThemeColor({}, "tint");
 	const text = useThemeColor({}, "text");
@@ -37,20 +38,6 @@ const index = () => {
 		title === true ? setTitle(false) : setTitle(true);
 	}
 
-
-	const note: NoteType = {
-		id: 1,
-		title: "Test",
-		body: "This is just for testing purpose",
-		pinned: true,
-		favorite: true,
-		locked: false,
-		lastUpdated: "00000000",
-		onPress() {
-			setSelectedNote(this);
-			router.push("/notePreview")
-		},
-	}
 
 	return (
 		<Container>
@@ -123,27 +110,12 @@ const index = () => {
 			</View>
 
 			{active === "All notes" && (
-				<View>
-					<NoteCard
-						id={note.id}
-						title={note.title}
-						body={note.body}
-						favorite={note.favorite}
-						pinned={note.pinned}
-						locked={note.locked}
-						lastUpdated={note.lastUpdated}
-						onPress={note.onPress}
-					/>
-				</View>
+				<AllNotes/>
 			)}
 			
 			{active === "Folders" && (
 				<View>
-					<FolderCard 
-						name="Folder name"
-						noteCount={12}
-						onPress={() => {}}
-					/>
+					
 				</View>
 			)}
 		</Container>

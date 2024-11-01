@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import Icon from "react-native-vector-icons/Feather";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import HandDraw from "../components/icons/HandDraw";
@@ -78,7 +78,7 @@ const TextOptions = () => {
     )
 }
 
-const FormattingToolbar = () => {
+const FormattingToolbar: FC<{onSavePress: () => void}> = ({ onSavePress}) => {
     const text = useThemeColor({}, "text");
     const tint = useThemeColor({}, "tint");
     const card = useThemeColor({}, "card");
@@ -149,6 +149,7 @@ const FormattingToolbar = () => {
                     right: 50,
                     bottom: 60
                 }}
+                onClose={() => setShowDropDown(false)}
             />
             <Pressable
                 style={styles.button}
@@ -207,6 +208,7 @@ const FormattingToolbar = () => {
             </Pressable>
 
             <Pressable
+                onPress={onSavePress}
                 style={styles.button}
             >
                 <Icon name="save" color={text} size={20} />
