@@ -20,6 +20,7 @@ import Ascending from "@/components/icons/Ascending";
 import FolderCard from "@/ui/FolderCard";
 import NoteCard from "@/ui/NoteCard";
 import Descending from "@/components/icons/Descending";
+import InputModal from "@/ui/InputModal";
 
 const folderContent = () => {
     const router = useRouter();
@@ -30,6 +31,8 @@ const folderContent = () => {
     const icon = useThemeColor({}, "icon");
 
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+
     const [foldersSort, setFoldersSort] = useState<{filter?: string, order?: string}>({
         filter: "Name",
         order: "ascending"
@@ -83,7 +86,8 @@ const folderContent = () => {
             icon: <Icon name="edit-3" color={text} size={20} />,
             title: "Rename",
             onPress: () => {
-                
+                setShowModal(true);
+                setShowDropDown(false);
             },
         },
         {
@@ -108,20 +112,20 @@ const folderContent = () => {
         <Container>
             <View style={styles.header}>
                 <Pressable>
-                    <Icon name="arrow-left" size={20} color={icon} />
+                    <Icon name="arrow-left" size={20} color={text} />
                 </Pressable>
 
                 <View style={{ alignItems: "center"}}>
-                    <ThemedText type="heading" style={{ color: icon}}>
+                    <ThemedText type="heading" style={{ color: text }}>
                         {selectedNote?.title || "Folder name"}
                     </ThemedText>
-                    <ThemedText type="cardText" style={{ color: icon}}>
+                    <ThemedText type="cardText" style={{ color: text}}>
                         {selectedNote?.title || "path/to/folder/destination"}
                     </ThemedText>
                 </View>
 
                 <Pressable onPress={toggleShowDropDown}>
-                    <Icon name="more-vertical" size={20} color={icon} />
+                    <Icon name="more-vertical" size={20} color={text} />
                 </Pressable>
 
                 <DropDownMenu
@@ -132,8 +136,16 @@ const folderContent = () => {
                         top: 50
                     }}
                     style={{zIndex: 2}}
+                    onClose={() => setShowDropDown(false)}
                 />
             </View>
+
+            <InputModal
+                visible={showModal}
+                title="rename"
+                onClose={() => setShowModal(false)}
+                onSubmit={() => {}}
+            />
 
             <SearchBar
                 placeholder="Search for notes and folders"
@@ -176,14 +188,7 @@ const folderContent = () => {
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", gap: 15 }}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(((number) => (
-                        <FolderCard
-                            key={number}
-                            name="Folder name"
-                            noteCount={12}
-                            onPress={() => {}}
-                        />
-                    )))}
+                    
                 </View>
             </View>
             
@@ -224,20 +229,7 @@ const folderContent = () => {
                 </View>
 
                 <View style={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "space-around", gap: 15 }}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8].map(((number) => (
-                        <NoteCard
-                            key={number}
-                            id={1}
-                            title={"note.title"}
-                            body={"note.body"}
-                            favorite={true}
-                            pinned={true}
-                            locked={false}
-                            lastUpdated={"note.lastUpdated"}
-                            onPress={() => {}}
-                            color="#fec120"
-                        />
-                    )))}
+                    
                 </View>
             </View>
         </Container>

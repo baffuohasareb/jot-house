@@ -5,6 +5,7 @@ import useNotesStore from "@/stores/noteStore";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import FormattingToolbar from "@/ui/FormattingToolbar";
 import Icon from "react-native-vector-icons/Feather";
+import InputModal from "@/ui/InputModal";
 
 const editNote = () => {
     const { selectedNote } = useNotesStore();
@@ -15,6 +16,7 @@ const editNote = () => {
     const tint = useThemeColor({}, "tint");
 
     const [toolbarVisible, setToolbarVisible] = useState<boolean>(false);
+    const [InputModalVisible, setInputModalVisible] = useState<boolean>(false)
 
     return (
         <Container paddingVertical={20}>
@@ -35,8 +37,15 @@ const editNote = () => {
                     <Icon name="check" color={icon} size={25} />
                 </Pressable>
 
-                {toolbarVisible && <FormattingToolbar />}
+                {toolbarVisible && <FormattingToolbar onSavePress={() => setInputModalVisible(true)} />}
             </View>
+
+            <InputModal 
+                visible={InputModalVisible}
+                onClose={() => setInputModalVisible(false)}
+                title="save"
+                onSubmit={() => {}}
+            />
         </Container>
     )
 }
