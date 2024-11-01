@@ -1,6 +1,6 @@
 import { FC, ReactNode } from "react";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { View, ScrollView, ViewStyle, StyleSheet } from "react-native";
+import { View, ScrollView, ViewStyle, StyleSheet, TouchableWithoutFeedback, Keyboard, FlatList } from "react-native";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Props = {
@@ -40,18 +40,23 @@ const Container: FC<Props> = ({
         contentContainerStyle
     } : {};
 
-    const contentRender = (
+    const ContentRender = () => (
         <Wrapper {...props} style={[styles.container, { backgroundColor, paddingHorizontal, paddingVertical, justifyContent }, style]}>
             {children}
         </Wrapper>
     );
 
-    if (headerShown) return contentRender;
+    if (headerShown) return <ContentRender />;
 
     return(
 
         <SafeAreaProvider style={{paddingTop: paddingVertical, paddingBottom: bottom, backgroundColor}}>
-            {contentRender}
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <FlatList
+                    data={[1]}
+                    renderItem={() => <ContentRender />}
+                />
+            </TouchableWithoutFeedback>
         </SafeAreaProvider>
     )
 }
