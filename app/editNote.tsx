@@ -1,13 +1,17 @@
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
-import React, { useState } from "react";
+import "react-native-get-random-values";
+import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { useState } from "react";
 import Container from "@/ui/Container";
 import useNotesStore from "@/stores/noteStore";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import FormattingToolbar from "@/ui/FormattingToolbar";
 import Icon from "react-native-vector-icons/Feather";
 import InputModal from "@/ui/InputModal";
+import { addNote } from "@/services/realm/noteActions";
+import { useRouter } from "expo-router";
 
 const editNote = () => {
+    const router = useRouter();
     const { selectedNote } = useNotesStore();
     const textColor = useThemeColor({light: "#000", dark: "#fff"}, "text")
 
@@ -16,24 +20,34 @@ const editNote = () => {
     const tint = useThemeColor({}, "tint");
 
     const [toolbarVisible, setToolbarVisible] = useState<boolean>(false);
-    const [InputModalVisible, setInputModalVisible] = useState<boolean>(false)
+    const [InputModalVisible, setInputModalVisible] = useState<boolean>(false);
+    const [heading, setHeading] = useState<string>("My second day at school");
+    const [body, setBody] = useState<string>("My last day at school was not a very interesting one. I got caned by my teacher and I peed on myself. I was so embarrased for what happended. I called to tell my mom, and she called the teacher to tell him not to cane me again because I was already afraid of him, and doing that will not make me like him so much. Thank you. The end!");
+
+    const handleDonePress = () => {
+        addNote(heading, body);
+        router.replace("/");
+    }
 
     return (
         <Container paddingVertical={20}>
             <TextInput
-                value={selectedNote?.title || "Note title"}
+                value={selectedNote?.title || heading}
                 style={[styles.title, { backgroundColor: card, fontWeight: "600", color: textColor }]}
             />
 
             <TextInput
-                value={selectedNote?.title || "Note body"}
+                value={selectedNote?.title || body}
                 style={[styles.body, { backgroundColor: card, color: textColor }]}
                 onFocus={() => setToolbarVisible(true)}
                 onBlur={() => setToolbarVisible(false)}
             />
 
             <View style={{ position: "absolute", width: "100%", bottom: 0, }}>
-                <Pressable style={[styles.fab, { backgroundColor: tint }]}>
+                <Pressable 
+                    onPress={handleDonePress}
+                    style={[styles.fab, { backgroundColor: tint }]}
+                >
                     <Icon name="check" color={icon} size={25} />
                 </Pressable>
 
