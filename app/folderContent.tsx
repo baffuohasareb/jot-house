@@ -1,13 +1,8 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import Container from "@/ui/Container";
-import Color from "@/components/icons/Color";
-import Share from "@/components/icons/Share";
 import Delete from "@/components/icons/Delete";
-import Locked from "@/components/icons/Locked";
 import MoveFolder from "@/components/icons/MoveFolder";
-import Star from "@/components/icons/Star";
-import Tag from "@/components/icons/Tag";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import useNotesStore from "@/stores/noteStore";
@@ -17,8 +12,6 @@ import { useRouter } from "expo-router";
 import Icon from "react-native-vector-icons/Feather";
 import SearchBar from "@/ui/SearchBar";
 import Ascending from "@/components/icons/Ascending";
-import FolderCard from "@/ui/FolderCard";
-import NoteCard from "@/ui/NoteCard";
 import Descending from "@/components/icons/Descending";
 import InputModal from "@/ui/InputModal";
 
