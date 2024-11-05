@@ -16,10 +16,13 @@ import Star from "@/components/icons/Star";
 import Tag from "@/components/icons/Tag";
 import Color from "@/components/icons/Color";
 import Delete from "@/components/icons/Delete";
+import { updateNote } from "@/services/realm/noteActions";
+import { deleteNote } from "@/services/realm/noteActions";
 
 const notePreview = () => {
     const router = useRouter();
     const { selectedNote } = useNotesStore();
+
 
     const tint = useThemeColor({}, "tint");
     const text = useThemeColor({}, "text");
@@ -32,14 +35,19 @@ const notePreview = () => {
             icon: <MoveFolder color={text} size={20} />,
             title: "Move to folder",
             onPress: () => {
-                console.log("Button pressed")
+                
             },
         },
         {
             icon: <Locked color={text} size={20} />,
-            title: "Lock",
+            title: selectedNote?.locked ? "Unlock" : "Lock",
             onPress: () => {
-                
+                if (selectedNote && selectedNote._id) {
+                    updateNote(selectedNote?._id, {locked: !selectedNote.locked});
+                } else {
+                    console.warn("No note selected")
+                }
+                setShowDropDown(false);
             },
         },
         {
@@ -51,9 +59,14 @@ const notePreview = () => {
         },
         {
             icon: <Star color={text} size={20} />,
-            title: "Add to favorites",
+            title: selectedNote?.favorite ? "Remove from favorites" : "Add to favorites",
             onPress: () => {
-                
+                if (selectedNote && selectedNote._id) {
+                    updateNote(selectedNote?._id, {favorite: !selectedNote.favorite});
+                } else {
+                    console.warn("No note selected")
+                }
+                setShowDropDown(false);
             },
         },
         {
@@ -74,7 +87,11 @@ const notePreview = () => {
             icon: <Delete color={text} size={20} />,
             title: "Delete",
             onPress: () => {
-                
+                if (selectedNote && selectedNote._id) {
+                    setShowDropDown(false);
+                    deleteNote(selectedNote._id);
+                    router.replace("/");
+                }
             },
         },
     ]
@@ -118,12 +135,13 @@ const notePreview = () => {
                         top: 50
                     }}
                     style={{zIndex: 2}}
+                    onClose={() => setShowDropDown(false)}
                 />
             </View>
 
             <View style={styles.main}>
                 <ThemedText>
-                    {selectedNote?.body || "This is the note content. I would have wanted to populate with some lorem text but I can't type everything. Peace out!"}
+                    {selectedNote?.content}
                 </ThemedText>
 
                 <Pressable 
@@ -146,13 +164,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingTop: 30,
         paddingHorizontal: 10,
-        paddingBottom: 10
+        paddingBottom: 10,
+        zIndex: 1
     },
     main: {
         flex: 1,
         paddingHorizontal: 10,
         paddingTop: 10,
-        zIndex: 1
     },
     fab: {
         position: "absolute",
