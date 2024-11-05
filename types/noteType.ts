@@ -1,13 +1,15 @@
+import Realm from "realm"
+
 type NoteType = {
-    id: number;
+    _id: Realm.BSON.ObjectId;
     title: string;
-    body: string;
+    content: string;
     pinned: boolean;
     favorite: boolean;
     color?: string;
     tags?: string[];
     locked: boolean;
-    lastUpdated: string;
+    lastEdited: Date;
 }
 
 export default NoteType
