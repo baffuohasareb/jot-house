@@ -10,15 +10,15 @@ import useNotesStore from "@/stores/noteStore";
 
 
 const NoteCard: FC<NoteType> = ({
-    id,
+    _id,
     title,
-    body,
+    content,
     pinned,
     favorite,
     color,
     tags,
     locked,
-    lastUpdated,
+    lastEdited,
 }) => {
     const router = useRouter();
 
@@ -27,10 +27,10 @@ const NoteCard: FC<NoteType> = ({
     const cardBackground = useThemeColor({}, "card");
     const tint = useThemeColor({}, "tint");
 
-    const cardText = locked ? "Note body hidden for privacy reasons" : body;
+    const cardText = locked ? "Note body hidden for privacy reasons" : content;
 
     const handleNotePress = () => {
-        setSelectedNote({id, title, body, pinned, favorite, color, tags, locked,  lastUpdated})
+        setSelectedNote({_id, title, content, pinned, favorite, color, tags, locked,  lastEdited})
         router.push("/notePreview");
     }
 
@@ -62,7 +62,7 @@ const NoteCard: FC<NoteType> = ({
 
             <View style={styles.header}>
                 <ThemedText type="small">
-                    Last updated: {lastUpdated}
+                    Last updated: {lastEdited.toLocaleDateString()}
                 </ThemedText>
 
                 <View style={[styles.color, {backgroundColor: `${color}`}]}/>
