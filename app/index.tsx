@@ -1,26 +1,23 @@
-import { Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { FlatList, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useState } from "react";
 import { ThemedText } from "@/components/ThemedText";
 import SearchBar from "@/ui/SearchBar";
 import Container from "@/ui/Container";
-import NoteCard from "@/ui/NoteCard";
-import FolderCard from "@/ui/FolderCard";
-import { Collapsible } from "@/components/Collapsible";
 import TagsHeader from "@/ui/TagsHeader";
 import Sidebar from "@/ui/Sidebar";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Icon from "react-native-vector-icons/Feather";
 import useHomeScreenContentStore from "@/stores/homeScreenContentStore";
 import useNotesStore from "@/stores/noteStore";
-import NoteType from "@/types/noteType";
 import { useRouter } from "expo-router";
 import Ascending from "@/components/icons/Ascending";
 import Descending from "@/components/icons/Descending";
 import AllNotes from "@/ui/AllNotes";
+import { getAllNotes } from "@/services/realm/noteActions";
 
 const index = () => {
 	const { active, setActive } = useHomeScreenContentStore();
-	const { notes } = useNotesStore();
+	const { setNotes, setSelectedNote } = useNotesStore();
 	const router = useRouter();
 	const tint = useThemeColor({}, "tint");
 	const text = useThemeColor({}, "text");
@@ -37,6 +34,12 @@ const index = () => {
 	const toggleFilter = () => {
 		title === true ? setTitle(false) : setTitle(true);
 	}
+
+	useEffect(() => {
+		setSelectedNote();
+		const notes = getAllNotes();
+		setNotes(notes);
+	}, [])
 
 
 	return (
@@ -110,7 +113,10 @@ const index = () => {
 			</View>
 
 			{active === "All notes" && (
-				<AllNotes/>
+				<FlatList
+					data={[1]}
+					renderItem={() => <AllNotes />}
+				/>
 			)}
 			
 			{active === "Folders" && (
