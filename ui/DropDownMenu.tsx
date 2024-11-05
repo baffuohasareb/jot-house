@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
         height: 900,
         justifyContent: "flex-start",
         alignItems: "flex-end",
-        zIndex: 1
     },
     separator: {
         width: "100%",
@@ -94,6 +93,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 10,
         gap: 20,
-        zIndex: 1,
+        zIndex: 2,
     },
 });

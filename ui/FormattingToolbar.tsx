@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
-        paddingVertical: 10
+        paddingVertical: 10,
+        width: "100%"
     },
     rowGroup: {
         flexDirection: "row",
