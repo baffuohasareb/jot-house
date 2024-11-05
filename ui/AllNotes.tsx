@@ -1,11 +1,14 @@
 import { Image, StyleSheet, Text, useColorScheme, View } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import useNotesStore from "@/stores/noteStore";
 import NoteCard from "./NoteCard";
 import { ThemedText } from "@/components/ThemedText";
 import { useThemeColor } from "@/hooks/useThemeColor";
+import useHomeScreenContentStore from "@/stores/homeScreenContentStore";
+import NoteType from "@/types/noteType";
 
 const AllNotes = () => {
+    const { active } = useHomeScreenContentStore();
     const { notes } = useNotesStore();
     const color = useColorScheme();
     const tint = useThemeColor({}, "tint");
@@ -13,9 +16,32 @@ const AllNotes = () => {
     const lightFallback = require("../assets/images/no-notes-light.png");
     const darkFallback = require("../assets/images/no-notes-dark.png");
 
+    const [filteredNotes, setFilteredNotes] = useState<NoteType[]>(notes);
+
+    const filterNotes = () => {
+        if (active === "All notes") {
+            setFilteredNotes(notes);
+        } else if (active === "Locked") {
+            setFilteredNotes(notes.filter(note => note.locked === true))
+        } else if (active === "Favorites") {
+            setFilteredNotes(notes.filter(note => note.favorite === true))
+        } else if (active === "Pinned") {
+            setFilteredNotes(notes.filter(note => note.pinned === true))
+        } else if (active === "Tags") {
+            // logic for rendering notes with selected tag
+        } else if (active === "Folders") {
+            // logic for rendering folders
+        }
+    };
+
+    useEffect(() => {
+        filterNotes();
+        console.log("filtered notes:", filteredNotes);
+    }, [active])
+
     return (
         <View>
-            {notes.length === 0 ? (
+            {filteredNotes.length === 0 ? (
                 <View style={{ alignItems: "center"}}>
                     <View style={styles.imageContainer}>
                         <Image 
@@ -30,21 +56,21 @@ const AllNotes = () => {
                     </ThemedText>
                 </View>
             ) : (
-                notes.map((note) => (
-                    <View style={styles.container}>
+                <View style={styles.container}>
+                    {filteredNotes.map((note) => (
                         <NoteCard
-                            key={note.id}
-                            id={note.id}
+                            key={note._id.toHexString()}
+                            _id={note._id}
                             title={note.title}
-                            body={note.body}
+                            content={note.content}
                             favorite={note.favorite}
                             pinned={note.pinned}
                             locked={note.locked}
                             color={note.color}
-                            lastUpdated={note.lastUpdated}
+                            lastEdited={note.lastEdited}
                         />
-                    </View>
-                ))
+                    ))}
+                </View>
             )}
         </View>
     )
@@ -57,8 +83,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-around",
-        gap: 10
+        justifyContent: "flex-start",
+        gap: 15
     },
     imageContainer: {
         alignSelf: "center",
